@@ -1,0 +1,9 @@
+# Backend API (FastAPI) - pinned to match the saved .pkl environment.
+# scikit-learn / numpy versions MUST match the machine that trained the model,
+# otherwise the pickle may fail to load.
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.4
+scikit-learn==1.9.0
+numpy==2.5.2
+pandas==3.0.5

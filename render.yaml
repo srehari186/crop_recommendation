@@ -1,0 +1,17 @@
+# Render deployment for the Smart Crop Recommendation API.
+# Deploy from GitHub: New > Web Service > connect repo > Render uses this file.
+# https://render.com/docs/yaml-spec
+services:
+  - type: web
+    name: crop-prediction-api
+    runtime: python
+    plan: free                       # change to a paid plan if you need always-on
+    region: oregon                   # pick the region closest to you
+    rootDir: backend                 # build/run inside the backend/ folder
+    pythonVersion: "3.13"            # must match the env that trained the .pkl
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "10000"               # Render overrides this at runtime
