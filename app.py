@@ -9,6 +9,30 @@ from pydantic import BaseModel, Field
 
 from preprocessing import FEATURES, preprocess
 
+CROP_LABELS = {
+    0: "apple",
+    1: "banana",
+    2: "blackgram",
+    3: "chickpea",
+    4: "coconut",
+    5: "coffee",
+    6: "cotton",
+    7: "grapes",
+    8: "jute",
+    9: "kidneybeans",
+    10: "lentil",
+    11: "maize",
+    12: "mango",
+    13: "mothbeans",
+    14: "mungbean",
+    15: "muskmelon",
+    16: "orange",
+    17: "papaya",
+    18: "pigeonpeas",
+    19: "pomegranate",
+    20: "rice",
+    21: "watermelon"
+}
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("crop_api")
@@ -107,11 +131,11 @@ def predict(payload: CropInput):
         X = preprocess(payload.model_dump())
 
         # Get prediction.
-        prediction = MODEL.predict(X)[0]
+   prediction = int(MODEL.predict(X)[0])
 
-        result = {
-            "recommended_crop": str(prediction)
-        }
+   result = {
+       "recommended_crop": CROP_LABELS[prediction]
+   }
 
         # If the model supports probabilities, return top 3.
         if hasattr(MODEL, "predict_proba"):
@@ -126,7 +150,7 @@ def predict(payload: CropInput):
             for rank, index in enumerate(order, start=1):
                 recommendations.append({
                     "rank": rank,
-                    "crop": str(classes[index]),
+                    "crop": CROP_LABELS[int(classes[index])],
                     "probability": round(
                         float(probabilities[index]), 4
                     )
