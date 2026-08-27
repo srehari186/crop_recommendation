@@ -133,9 +133,9 @@ def predict(payload: CropInput):
         # Get prediction.
         prediction = int(MODEL.predict(X)[0])
 
-   result = {
-       "recommended_crop": CROP_LABELS[prediction]
-   }
+        result = {
+            "recommended_crop": CROP_LABELS[prediction]
+        }
 
         # If the model supports probabilities, return top 3.
         if hasattr(MODEL, "predict_proba"):
