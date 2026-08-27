@@ -131,7 +131,7 @@ def predict(payload: CropInput):
         X = preprocess(payload.model_dump())
 
         # Get prediction.
-   prediction = int(MODEL.predict(X)[0])
+        prediction = int(MODEL.predict(X)[0])
 
    result = {
        "recommended_crop": CROP_LABELS[prediction]
